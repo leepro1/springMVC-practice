@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -38,11 +39,16 @@ public class BasicItemController {
         return "basic/addForm";
     }
 
+    /**
+     * PRG - Post/Redirect/Get
+     */
     @PostMapping("/add")
-    public String save(@ModelAttribute Item item) {
-        itemRepository.save(item);
+    public String save(@ModelAttribute Item item, RedirectAttributes redirectAttributes) {
+        Item savedItem = itemRepository.save(item);
+        redirectAttributes.addAttribute("itemId", savedItem.getId());
+        redirectAttributes.addAttribute("status", true);
 
-        return "basic/item";
+        return "redirect:/basic/items/{itemId}";
     }
 
     @GetMapping("/{itemId}/edit")
