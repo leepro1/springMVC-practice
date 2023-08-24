@@ -8,4 +8,5 @@ public interface MemberService {
     void join(MemberDTO memberDTO);
     MemberDTO login(MemberDTO memberDTO);
     List<MemberDTO> findALl();
+    MemberDTO findById(Long id);
 }

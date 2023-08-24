@@ -55,4 +55,14 @@ public class MemberServiceImpl implements MemberService {
 
         return memberDTOList;
     }
+
+    @Override
+    public MemberDTO findById(Long id) {
+        Optional<MemberEntity> optionalMemberEntity = memberRepository.findById(id);
+        if (optionalMemberEntity.isPresent()) {
+            return MemberDTO.toMemberDTO(optionalMemberEntity.get());
+        } else {
+            return null;
+        }
+    }
 }
