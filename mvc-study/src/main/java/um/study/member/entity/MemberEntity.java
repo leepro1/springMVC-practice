@@ -3,6 +3,7 @@ package um.study.member.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import um.study.member.dto.MemberDTO;
 
 @Entity
 @Getter
@@ -22,4 +23,13 @@ public class MemberEntity {
 
     @Column
     private String memberName;
+
+    public static MemberEntity toMemberEntity(MemberDTO memberDTO){
+        MemberEntity memberEntity = new MemberEntity();
+        memberEntity.setMemberEmail(memberDTO.getMemberEmail());
+        memberEntity.setMemberPassword(memberDTO.getMemberPassword());
+        memberEntity.setMemberName(memberDTO.getMemberName());
+
+        return memberEntity;
+    }
 }

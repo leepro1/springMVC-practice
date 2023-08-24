@@ -3,6 +3,7 @@ package um.study.member.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import um.study.member.dto.MemberDTO;
+import um.study.member.entity.MemberEntity;
 import um.study.member.repository.MemberRepository;
 
 @Service
@@ -13,6 +14,10 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void join(MemberDTO memberDTO) {
-        //memberRepository.save(memberDTO);
+        //1. dto를 entity로 변환
+        MemberEntity memberEntity = MemberEntity.toMemberEntity(memberDTO);
+
+        //2. repository.save 호출
+        memberRepository.save(memberEntity);
     }
 }
