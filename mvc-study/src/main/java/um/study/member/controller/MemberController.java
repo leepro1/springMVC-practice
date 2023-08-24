@@ -3,12 +3,15 @@ package um.study.member.controller;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import um.study.member.dto.MemberDTO;
 import um.study.member.service.MemberService;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/member")
@@ -44,5 +47,12 @@ public class MemberController {
         } else {
             return "login";
         }
+    }
+
+    @GetMapping("/")
+    public String finAll(Model model){
+        List<MemberDTO> memberDTOList = memberService.findALl();
+        model.addAttribute("memberList", memberDTOList);
+        return "list";
     }
 }

@@ -6,6 +6,8 @@ import um.study.member.dto.MemberDTO;
 import um.study.member.entity.MemberEntity;
 import um.study.member.repository.MemberRepository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -41,5 +43,16 @@ public class MemberServiceImpl implements MemberService {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public List<MemberDTO> findALl() {
+        List<MemberEntity> memberEntityList = memberRepository.findAll();
+        List<MemberDTO> memberDTOList = new ArrayList<>();
+        for (MemberEntity memberEntity : memberEntityList) {
+            memberDTOList.add(MemberDTO.toMemberDTO(memberEntity));
+        }
+
+        return memberDTOList;
     }
 }
