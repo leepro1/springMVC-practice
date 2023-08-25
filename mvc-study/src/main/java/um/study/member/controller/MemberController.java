@@ -73,4 +73,10 @@ public class MemberController {
         memberService.update(memberDTO);
         return "redirect:/member/" + memberDTO.getId();
     }
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable Long id){
+        memberService.deleteById(id);
+        return "redirect:/member/";
+    }
 }

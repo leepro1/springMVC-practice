@@ -16,4 +16,6 @@ public interface MemberService {
     MemberDTO updateForm(String myEmail);
 
     void update(MemberDTO memberDTO);
+
+    void deleteById(Long id);
 }

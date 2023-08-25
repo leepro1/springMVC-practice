@@ -80,4 +80,9 @@ public class MemberServiceImpl implements MemberService {
     public void update(MemberDTO memberDTO) {
         memberRepository.save(MemberEntity.toUpdateMemberEntity(memberDTO));
     }
+
+    @Override
+    public void deleteById(Long id) {
+        memberRepository.deleteById(id);
+    }
 }
