@@ -18,4 +18,6 @@ public interface MemberService {
     void update(MemberDTO memberDTO);
 
     void deleteById(Long id);
+
+    String emailCheck(String email);
 }

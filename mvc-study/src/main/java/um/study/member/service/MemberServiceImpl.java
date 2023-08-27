@@ -85,4 +85,14 @@ public class MemberServiceImpl implements MemberService {
     public void deleteById(Long id) {
         memberRepository.deleteById(id);
     }
+
+    @Override
+    public String emailCheck(String email) {
+        Optional<MemberEntity> byMemberEmail = memberRepository.findByMemberEmail(email);
+        if (byMemberEmail.isPresent()) {
+            return null;
+        } else {
+            return "ok";
+        }
+    }
 }
