@@ -19,18 +19,18 @@ public class MemberController {
 
     @GetMapping("/add")
     public String addForm() {
-        return "addForm";
+        return "member/addForm";
     }
 
     @PostMapping("/add")
     public String save(@ModelAttribute MemberDTO memberDTO) {
         memberService.join(memberDTO);
-        return "login";
+        return "member/login";
     }
 
     @GetMapping("/login")
     public String loginForm() {
-        return "login";
+        return "member/login";
     }
 
     @PostMapping("/login")
@@ -40,9 +40,9 @@ public class MemberController {
         if (loginResult != null) {
             //로그인 성공
             session.setAttribute("loginEmail", loginResult.getMemberEmail());
-            return "main";
+            return "member/main";
         } else {
-            return "login";
+            return "member/login";
         }
     }
 
@@ -50,14 +50,14 @@ public class MemberController {
     public String finAll(Model model) {
         List<MemberDTO> memberDTOList = memberService.findALl();
         model.addAttribute("memberList", memberDTOList);
-        return "list";
+        return "member/list";
     }
 
     @GetMapping("/{id}")
     public String findById(@PathVariable Long id, Model model) {
         MemberDTO memberDTO = memberService.findById(id);
         model.addAttribute("member", memberDTO);
-        return "detail";
+        return "member/detail";
     }
 
     @GetMapping("/update")
@@ -65,7 +65,7 @@ public class MemberController {
         String myEmail = (String) session.getAttribute("loginEmail");
         MemberDTO memberDTO = memberService.updateForm(myEmail);
         model.addAttribute("updateMember", memberDTO);
-        return "update";
+        return "member/update";
     }
 
     @PostMapping("/update")
