@@ -23,6 +23,10 @@
         <td th:text="${board.boardCreatedTime}"></td>
     </tr>
     <tr>
+        <th>수정날짜</th>
+        <td th:text="${board.boardUpdatedTime}"></td>
+    </tr>
+    <tr>
         <th>내용</th>
         <td th:text="${board.boardContents}"></td>
     </tr>
@@ -37,11 +41,11 @@
     }
     const updateReq = () => {
         const id = [[${board.id}]]
-        location.href = "/board/update" + id;
+        location.href = "/board/update/" + id;
     }
     const deleteReq = () => {
         const id = [[${board.id}]]
-        location.href = "/board/delete" + id;
+        location.href = "/board/delete/" + id;
     }
 </script>
 </html>

@@ -50,4 +50,10 @@ public class BoardServiceImpl implements BoardService {
             return null;
         }
     }
+
+    @Override
+    public BoardDTO update(BoardDTO boardDTO) {
+        boardRepository.save(BoardEntity.toUpdateBoardEntity(boardDTO));
+        return findById(boardDTO.getId());
+    }
 }

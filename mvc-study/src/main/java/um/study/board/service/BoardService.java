@@ -13,4 +13,6 @@ public interface BoardService {
     void updateHits(Long id);
 
     BoardDTO findById(Long id);
+
+    BoardDTO update(BoardDTO boardDTO);
 }
