@@ -38,15 +38,15 @@ public class BoardServiceImpl implements BoardService {
     @Transactional
     @Override
     public void updateHits(Long id) {
-        boardRepository.findById(id);
+        boardRepository.updateHits(id);
     }
 
     @Override
     public BoardDTO findById(Long id) {
         Optional<BoardEntity> optionalBoardEntity = boardRepository.findById(id);
-        if(optionalBoardEntity.isPresent()){
+        if (optionalBoardEntity.isPresent()) {
             return BoardDTO.toBoardDTO(optionalBoardEntity.get());
-        }else{
+        } else {
             return null;
         }
     }
