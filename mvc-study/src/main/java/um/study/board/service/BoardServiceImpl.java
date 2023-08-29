@@ -2,12 +2,14 @@ package um.study.board.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import um.study.board.dto.BoardDTO;
 import um.study.board.entity.BoardEntity;
 import um.study.board.repository.BoardRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,5 +33,21 @@ public class BoardServiceImpl implements BoardService {
         }
 
         return boardDTOList;
+    }
+
+    @Transactional
+    @Override
+    public void updateHits(Long id) {
+        boardRepository.findById(id);
+    }
+
+    @Override
+    public BoardDTO findById(Long id) {
+        Optional<BoardEntity> optionalBoardEntity = boardRepository.findById(id);
+        if(optionalBoardEntity.isPresent()){
+            return BoardDTO.toBoardDTO(optionalBoardEntity.get());
+        }else{
+            return null;
+        }
     }
 }
