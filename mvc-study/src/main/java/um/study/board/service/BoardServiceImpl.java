@@ -56,4 +56,9 @@ public class BoardServiceImpl implements BoardService {
         boardRepository.save(BoardEntity.toUpdateBoardEntity(boardDTO));
         return findById(boardDTO.getId());
     }
+
+    @Override
+    public void delete(Long id) {
+        boardRepository.deleteById(id);
+    }
 }
