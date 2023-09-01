@@ -1,6 +1,10 @@
 package um.study.board.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import um.study.board.dto.BoardDTO;
@@ -60,5 +64,14 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public void delete(Long id) {
         boardRepository.deleteById(id);
+    }
+
+    @Override
+    public Page<BoardDTO> paging(Pageable pageable) {
+        int page = pageable.getPageNumber() - 1;
+        int pageLimit = 3; // 한 페이지에 보여줄 게시글 수
+
+        //한 페이지당 3개씩의 글, id 기준 내림차순 정렬
+        Page<BoardEntity> boardEntities = boardRepository.findAll(PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "id")));
     }
 }

@@ -15,6 +15,7 @@
     <h2>Hello World!</h2>
     <button onclick="saveReq()">글작성</button>
     <button onclick="listReq()">글목록</button>
+    <button onclick="pagingReq()">페이징목록</button>
 </div>
 </body>
 <script>
@@ -23,6 +24,9 @@
     }
     const listReq = () => {
         location.href = "/board/";
+    }
+    const pagingReq = () => {
+        location.href = "/board/paging";
     }
 </script>
 </html>
