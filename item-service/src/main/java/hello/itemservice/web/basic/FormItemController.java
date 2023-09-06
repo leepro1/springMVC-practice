@@ -12,9 +12,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 
 @Controller
-@RequestMapping("/basic/items")
+@RequestMapping("/form/items")
 @RequiredArgsConstructor
-public class BasicItemController {
+public class FormItemController {
 
     private final ItemRepository itemRepository;
 
@@ -23,7 +23,7 @@ public class BasicItemController {
         List<Item> items = itemRepository.findAll();
         model.addAttribute("items", items);
 
-        return "basic/items";
+        return "form/items";
     }
 
     @GetMapping("/{itemId}")
@@ -31,12 +31,12 @@ public class BasicItemController {
         Item item = itemRepository.findById(itemId);
         model.addAttribute("item", item);
 
-        return "basic/item";
+        return "form/item";
     }
 
     @GetMapping("/add")
     public String addForm() {
-        return "basic/addForm";
+        return "form/addForm";
     }
 
     /**
@@ -48,7 +48,7 @@ public class BasicItemController {
         redirectAttributes.addAttribute("itemId", savedItem.getId());
         redirectAttributes.addAttribute("status", true);
 
-        return "redirect:/basic/items/{itemId}";
+        return "redirect:/form/items/{itemId}";
     }
 
     @GetMapping("/{itemId}/edit")
@@ -56,22 +56,13 @@ public class BasicItemController {
         Item item = itemRepository.findById(itemId);
         model.addAttribute("item", item);
 
-        return "basic/editForm";
+        return "form/editForm";
     }
 
     @PostMapping("/{itemId}/edit")
     public String editForm(@PathVariable Long itemId, @ModelAttribute Item item) {
         itemRepository.update(itemId, item);
 
-        return "redirect:/basic/items/{itemId}";
+        return "redirect:/form/items/{itemId}";
     }
-
-    //테스트용 data 추가
-    @PostConstruct
-    public void init() {
-        itemRepository.save(new Item("itemA", 10000, 10));
-        itemRepository.save(new Item("itemB", 20000, 15));
-    }
-
-
 }
