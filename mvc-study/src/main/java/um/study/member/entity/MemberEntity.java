@@ -8,7 +8,7 @@ import um.study.member.dto.MemberDTO;
 @Entity
 @Getter
 @Setter
-@Table(name = "member1")
+@Table(name = "member_table")
 public class MemberEntity {
 
     @Id //pk
