@@ -4,11 +4,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import um.study.board.dto.BoardDTO;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface BoardService {
 
-    void save(BoardDTO boardDTO);
+    void save(BoardDTO boardDTO) throws IOException;
 
     List<BoardDTO> findAll();
 
