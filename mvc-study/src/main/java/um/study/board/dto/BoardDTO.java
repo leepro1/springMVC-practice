@@ -44,6 +44,15 @@ public class BoardDTO {
         boardDTO.setBoardHits(boardEntity.getBoardHits());
         boardDTO.setBoardCreatedTime(boardEntity.getCreatedTime());
         boardDTO.setBoardUpdatedTime(boardEntity.getUpdatedTime());
+        boardDTO.setFileAttached(boardEntity.getFileAttached());
+
+        if (boardDTO.getFileAttached() == 1) {
+            // 파일 이름을 가져와 경로를 찾자 
+            // 그런데 boardFileEntity 안에 있는 값을 어떻게 가져올것인가 => join을 spring data jpa로 응용해보자
+            // 파일 일단 1개라 get(0)을 함 다중파일이면 반복문 사용
+            boardDTO.setOriginalFileName(boardEntity.getBoardFileEntityList().get(0).getOriginalFileName());
+            boardDTO.setStoredFileName(boardEntity.getBoardFileEntityList().get(0).getStoredFileName());
+        }
 
         return boardDTO;
     }

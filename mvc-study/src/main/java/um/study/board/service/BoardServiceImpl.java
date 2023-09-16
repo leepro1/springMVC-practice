@@ -58,6 +58,7 @@ public class BoardServiceImpl implements BoardService {
         }
     }
 
+    @Transactional
     @Override
     public List<BoardDTO> findAll() {
         List<BoardEntity> boardEntityList = boardRepository.findAll();
@@ -76,6 +77,7 @@ public class BoardServiceImpl implements BoardService {
         boardRepository.updateHits(id);
     }
 
+    @Transactional
     @Override
     public BoardDTO findById(Long id) {
         Optional<BoardEntity> optionalBoardEntity = boardRepository.findById(id);
