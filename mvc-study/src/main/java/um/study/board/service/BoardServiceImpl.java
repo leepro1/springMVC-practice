@@ -35,6 +35,7 @@ public class BoardServiceImpl implements BoardService {
             boardRepository.save(boardEntity);
         } else {
             /*
+                - 단일 파일 첨부시
                 1. DTO에 담긴 파일을 꺼냄
                 2. 파일의 이름 가저옴 
                 3. 서버 저장용 이름 생성
@@ -42,19 +43,23 @@ public class BoardServiceImpl implements BoardService {
                 5. 해당 경로에 파일 저장
                 6. board_table에 해당 데이터 save 처리 + id 가져옴
                 7. board_file_table에 해당 데이터 save 처리
+                
+                - 다중 파일 첨부시
+                부모 entity를 먼저 db에 저장을 해야 그의 자식 file들을 반복문을 통해 저장가능
              */
-            MultipartFile boardFile = boardDTO.getBoardFile();
-            String originalFilename = boardFile.getOriginalFilename();  //DTO 필드가 아니라 MultipartFile 메서드다
-            String storedFileName = System.currentTimeMillis() + "_" + originalFilename;    //1970년을 기준으로 몇 밀리세크가 지났는지
-            String savePath = "C:/Users/82108/mvcstudy_img/" + storedFileName;
-            boardFile.transferTo(new File(savePath));
-
             BoardEntity boardEntity = BoardEntity.toSaveFileEntity(boardDTO);   //db에 저장하기 전이라 id값이 없음
             Long saveId = boardRepository.save(boardEntity).getId();
             BoardEntity savedEntity = boardRepository.findById(saveId).get();
 
-            BoardFileEntity boardFileEntity = BoardFileEntity.toBoardFileEntity(savedEntity, originalFilename, storedFileName);
-            boardFileRepository.save(boardFileEntity);
+            for(MultipartFile boardFile: boardDTO.getBoardFile()) {
+                String originalFilename = boardFile.getOriginalFilename();  //DTO 필드가 아니라 MultipartFile 메서드다
+                String storedFileName = System.currentTimeMillis() + "_" + originalFilename;    //1970년을 기준으로 몇 밀리세크가 지났는지
+                String savePath = "C:/Users/82108/mvcstudy_img/" + storedFileName;
+                boardFile.transferTo(new File(savePath));
+
+                BoardFileEntity boardFileEntity = BoardFileEntity.toBoardFileEntity(savedEntity, originalFilename, storedFileName);
+                boardFileRepository.save(boardFileEntity);
+            }
         }
     }
 
