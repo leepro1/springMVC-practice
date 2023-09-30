@@ -7,15 +7,13 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ProductDTO {
+public class ChangeProductNameDTO {
 
+    private Long number;
     private String name;
-    private int price;
-    private int stock;
 
-    public ProductDTO(String name, int price, int stock) {
+    public ChangeProductNameDTO(Long number, String name) {
+        this.number = number;
         this.name = name;
-        this.price = price;
-        this.stock = stock;
     }
 }
