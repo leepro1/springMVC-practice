@@ -48,12 +48,16 @@ class ProductControllerTest {
 
     @Test
     @DisplayName("Product 데이터 생성하기")
-    void createProductTest() {
+    void createProductTest() throws Exception {
 
         given(productService.saveProduct(new ProductDTO("cake", 30000, 500)))
                 .willReturn(new ProductResponseDTO(12315L, "cake", 30000, 500));
 
-        ProductDTO productDTO = new ProductDTO("cake", 30000, 500);
+        ProductDTO productDTO = ProductDTO.builder()
+                .name("cake")
+                .price(30000)
+                .stock(500)
+                .build();
 
         Gson gson = new Gson();
         String content = gson.toJson(productDTO);
