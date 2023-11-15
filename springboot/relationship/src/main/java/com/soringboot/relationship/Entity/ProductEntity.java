@@ -27,4 +27,8 @@ public class ProductEntity extends BaseEntity {
 
     @OneToOne(mappedBy = "product")
     private ProductDetailEntity productDetail;
+
+    @ManyToOne
+    @JoinColumn(name = "provider_id")
+    private ProviderEntity provider;
 }
