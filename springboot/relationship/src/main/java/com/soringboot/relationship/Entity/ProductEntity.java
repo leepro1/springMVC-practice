@@ -24,4 +24,7 @@ public class ProductEntity extends BaseEntity {
 
     @Column(nullable = false)
     private Integer stock;
+
+    @OneToOne(mappedBy = "product")
+    private ProductDetailEntity productDetail;
 }
