@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -31,4 +33,11 @@ public class ProductEntity extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "provider_id")
     private ProviderEntity provider;
+
+    @ManyToMany
+    private List<ProducerEntity> producers = new ArrayList<>();
+
+    public void addProducer(ProducerEntity producer){
+        this.producers.add(producer);
+    }
 }
