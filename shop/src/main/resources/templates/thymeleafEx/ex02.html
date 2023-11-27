@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ex02</title>
+</head>
+<body>
+    <h1>테스트 상품 출력</h1>
+    <div>
+        상품명: <span th:text="${itemDTO.name}"></span>
+    </div>
+    <div>
+        상품 상세: <span th:text="${itemDTO.itemDetail}"></span>
+    </div>
+    <div>
+        상품 가격: <span th:text="${itemDTO.price}"></span>
+    </div>
+    <div>
+        상품 등록일: <span th:text="${itemDTO.createTime}"></span>
+    </div>
+</body>
+</html>
