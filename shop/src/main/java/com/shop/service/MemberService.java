@@ -29,7 +29,7 @@ public class MemberService implements UserDetailsService {
     }
 
     private void validateDuplicateMember(Member member) {
-        if (memberRepository.findByEmail(member.getEmail()).isEmpty()) {
+        if (memberRepository.findByEmail(member.getEmail()).isPresent()) {
             throw new IllegalStateException("이미 가입된 회원입니다.");
         }
     }
