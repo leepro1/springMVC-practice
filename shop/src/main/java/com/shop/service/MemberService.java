@@ -12,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -27,20 +29,19 @@ public class MemberService implements UserDetailsService {
     }
 
     private void validateDuplicateMember(Member member) {
-        Member findMember = memberRepository.findByEmail(member.getEmail());
-        if (findMember != null) {
+        if (memberRepository.findByEmail(member.getEmail()).isEmpty()) {
             throw new IllegalStateException("이미 가입된 회원입니다.");
         }
     }
 
-
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Member member = memberRepository.findByEmail(email);
+        Optional<Member> optionalMember = memberRepository.findByEmail(email);
 
-        if (member == null)
+        if (optionalMember.isEmpty())
             throw new UsernameNotFoundException(email);
 
+        Member member = optionalMember.get();
         return User.builder()
                 .username(member.getEmail())
                 .password(member.getPassword())
