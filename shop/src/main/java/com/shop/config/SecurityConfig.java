@@ -10,7 +10,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
+import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 @Configuration
 @EnableWebSecurity
@@ -21,14 +23,23 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((authorizeHttpRequests) ->
                         authorizeHttpRequests
-                                .requestMatchers(new AntPathRequestMatcher("/**")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/member/**")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/item/**")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/images/**")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/css/**")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/js/**")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/img/**")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/error")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/admin/**")).hasRole("ADMIN")
                                 .anyRequest().authenticated())
                 .csrf((csrf) ->
                         csrf
                                 .ignoringRequestMatchers(new AntPathRequestMatcher("/h2-console/**")))
-                .headers((headers) -> headers
-                        .addHeaderWriter(new XFrameOptionsHeaderWriter(
-                                XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)))
+                .headers((headers) ->
+                        headers
+                                .addHeaderWriter(new XFrameOptionsHeaderWriter(
+                                        XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)))
                 .formLogin((formLogin) ->
                         formLogin
                                 .loginPage("/member/login") //로그인 페이지
@@ -39,6 +50,9 @@ public class SecurityConfig {
                         logout
                                 .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout")) //로그아웃 페이지
                                 .logoutSuccessUrl("/")) //로그아웃 성공시 이동할 URL
+                .exceptionHandling((exceptionHandling ->
+                        exceptionHandling
+                                .authenticationEntryPoint(new CustomAuthenticationEntryPoint())))
         ;
         return http.build();
     }
