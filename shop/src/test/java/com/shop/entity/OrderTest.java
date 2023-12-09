@@ -2,6 +2,7 @@ package com.shop.entity;
 
 import com.shop.constant.ItemSellStatus;
 import com.shop.repository.ItemRepository;
+import com.shop.repository.MemberRepository;
 import com.shop.repository.OrderRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
@@ -28,6 +29,9 @@ class OrderTest {
     @Autowired
     ItemRepository itemRepository;
 
+    @Autowired
+    MemberRepository memberRepository;
+
     @PersistenceContext
     EntityManager em;
 
@@ -47,8 +51,19 @@ class OrderTest {
     @Test
     @DisplayName("영속성 전이 테스트")
     void cascadeTest() {
-        Order order = new Order();
+        Order order = createOrder();
 
+        orderRepository.saveAndFlush(order);
+        em.clear();
+
+        Order savedOrder = orderRepository.findById(order.getId())
+                .orElseThrow(EntityNotFoundException::new);
+
+        assertEquals(3, savedOrder.getOrderItems().size());
+    }
+
+    public Order createOrder() {
+        Order order = new Order();
 
         for (int i = 0; i < 3; i++) {
             Item item = this.createItem();
@@ -61,12 +76,19 @@ class OrderTest {
             order.getOrderItems().add(orderItem);
         }
 
-        orderRepository.saveAndFlush(order);
-        em.clear();
+        Member member = new Member();
+        memberRepository.save(member);
 
-        Order savedOrder = orderRepository.findById(order.getId())
-                .orElseThrow(EntityNotFoundException::new);
+        order.setMember(member);
+        orderRepository.save(order);
+        return order;
+    }
 
-        assertEquals(3, savedOrder.getOrderItems().size());
+    @Test
+    @DisplayName("고아객체 제거 테스트")
+    public void orphanRemovalTest() {
+        Order order = createOrder();
+        order.getOrderItems().remove(0);
+        em.flush();
     }
 }
