@@ -108,5 +108,8 @@ class OrderTest {
                 .orElseThrow(EntityNotFoundException::new);
 
         System.out.println("Order class : " + orderItem.getOrder().getClass());
+        System.out.println("==========Order의 orderDate loading 시작==========");
+        orderItem.getOrder().getOrderDate();
+        System.out.println("==========Order의 orderDate loading 끝==========");
     }
 }
