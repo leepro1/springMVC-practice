@@ -13,7 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @ToString
 @Table(name = "member")
 @Entity
-public class Member {
+public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
