@@ -46,8 +46,6 @@ class OrderTest {
         item.setItemDetail("테스트 상세 설명");
         item.setItemSellStatus(ItemSellStatus.SELL);
         item.setStock(100);
-        item.setCreateTime(LocalDateTime.now());
-        item.setUpdateTime(LocalDateTime.now());
 
         return item;
     }
