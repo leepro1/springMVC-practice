@@ -115,7 +115,7 @@
                     <input type="hidden" name="itemImgIds" th:value="${itemImgDTO.id}"> <!--상품 수정시 몇 번째 이미지 인지하기 위한 값-->
                     <!--저장된 이미지 정보가 있다면 파일의 이름을 보여주고 / 없다면 상품 이미지+번호 출력-->
                     <label class="custom-file-label"
-                           th:text="${not #strings.isEmpty(itemImgDTO.oriImgName)} ? ${itemImgDTo.oriImgName} : '상품이미지' + ${status.index+1}"></label>
+                           th:text="${not #strings.isEmpty(itemImgDTO.oriImgName)} ? ${itemImgDTO.oriImgName} : '상품이미지' + ${status.index+1}"></label>
                 </div>
             </div>
         </div>
