@@ -43,15 +43,15 @@ public class ItemService {
             }
             itemImgService.saveItemImg(itemImg, itemImgFileList.get(i));
         }
-        
+
         return item.getId();
     }
 
     @Transactional(readOnly = true) //더티체킹 x 읽기 전용
-    public ItemFormDTO getItemFormDTO(Long itemId){
+    public ItemFormDTO getItemFormDTO(Long itemId) {
         List<ItemImg> itemImgList = itemImgRepository.findByItemIdOrderByIdAsc(itemId); //등록순 조회
         List<ItemImgDTO> itemImgDTOList = new ArrayList<>();
-        for(ItemImg itemImg:itemImgList){
+        for (ItemImg itemImg : itemImgList) {
             ItemImgDTO itemImgDTO = ItemImgDTO.of(itemImg);
             itemImgDTOList.add(itemImgDTO);
         }
@@ -62,5 +62,22 @@ public class ItemService {
         itemFormDTO.setItemImgDTOList(itemImgDTOList);
 
         return itemFormDTO;
+    }
+
+    public Long updateItem(ItemFormDTO itemFormDTO, List<MultipartFile> itemImgFileList) throws Exception {
+
+        //상품 수정
+        Item item = itemRepository.findById(itemFormDTO.getId())
+                .orElseThrow(EntityNotFoundException::new);
+        item.updateItem(itemFormDTO);
+
+        List<Long> itemImgIds = itemFormDTO.getItemImgIds();
+
+        //이미지 등록
+        for (int i = 0; i < itemImgFileList.size(); i++) {
+            itemImgService.updateItemImg(itemImgIds.get(i), itemImgFileList.get(i));
+        }
+
+        return item.getId();
     }
 }
