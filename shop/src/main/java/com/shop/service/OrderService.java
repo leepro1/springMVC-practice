@@ -90,4 +90,23 @@ public class OrderService {
                 .orElseThrow(EntityNotFoundException::new);
         order.cancelOrder();
     }
+
+    public Long orders(List<OrderDTO> orderDTOList, String email) {
+
+        Member member = memberRepository.findByEmail(email).get();
+        List<OrderItem> orderItemList = new ArrayList<>();
+
+        for (OrderDTO orderDTO : orderDTOList) {
+            Item item = itemRepository.findById(orderDTO.getItemId())
+                    .orElseThrow(EntityNotFoundException::new);
+
+            OrderItem orderItem = OrderItem.createOrderItem(item, orderDTO.getCount());
+            orderItemList.add(orderItem);
+        }
+
+        Order order = Order.createOrder(member, orderItemList);
+        orderRepository.save(order);
+
+        return order.getId();
+    }
 }
